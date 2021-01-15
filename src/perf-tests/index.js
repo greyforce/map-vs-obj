@@ -1,6 +1,8 @@
 import { seedTestStringIds, seedTestDataNumberKey, seedTestDataStringKey } from './prepareData';
 import { fillNumberKeyObject, fillNumberKeyMap, fillStringKeyObject, fillStringKeyMap } from './fill';
 import { appendNumberKeyObject, appendNumberKeyMap, appendStringKeyObject, appendStringKeyMap } from './append';
+import { concatNumberKeyObject, concatNumberKeyMap, concatStringKeyObject, concatStringKeyMap } from './concat';
+import { concatByChunksNumberKeyObject, concatByChunksNumberKeyMap, concatByChunksStringKeyObject, concatByChunksStringKeyMap } from './concatByChunks';
 import { getNumberKeyObject, getNumberKeyMap, getStringKeyObject, getStringKeyMap } from './get';
 import { seqUpdateForEachNumberKeyObject, seqUpdateForEachNumberKeyMap, seqUpdateForEachStringKeyObject, seqUpdateForEachStringKeyMap } from './seqUpdateForEach';
 import { seqUpdateForLoopNumberKeyObject, seqUpdateForLoopNumberKeyMap, seqUpdateForLoopStringKeyObject, seqUpdateForLoopStringKeyMap } from './seqUpdateForLoop';
@@ -17,7 +19,7 @@ export function perfTests() {
   const objString = {};
   const mapString = new Map();
   
-  const TEST_COUNT = 300000;
+  const TEST_COUNT = 30000;
   
   const { data: testStringIds } = seedTestStringIds(TEST_COUNT);
   const { data: testDataNumberKey } = seedTestDataNumberKey(TEST_COUNT);
@@ -30,11 +32,23 @@ export function perfTests() {
       ...fillStringKeyObject(objString, testDataStringKey, testStringIds),
       ...fillStringKeyMap(mapString, testDataStringKey, testStringIds),
     },
-    'Append obj and map data (append rest 50%)': {
-      ...appendNumberKeyObject(objNumber, testDataNumberKey),
-      ...appendNumberKeyMap(mapNumber, testDataNumberKey),
-      ...appendStringKeyObject(objString, testDataStringKey, testStringIds),
-      ...appendStringKeyMap(mapString, testDataStringKey, testStringIds),
+    // 'Append obj and map data (append rest 50%)': {
+    //   ...appendNumberKeyObject(objNumber, testDataNumberKey),
+    //   ...appendNumberKeyMap(mapNumber, testDataNumberKey),
+    //   ...appendStringKeyObject(objString, testDataStringKey, testStringIds),
+    //   ...appendStringKeyMap(mapString, testDataStringKey, testStringIds),
+    // },
+    // 'Concat to obj and map data (append rest 50%)': {
+    //   ...concatNumberKeyObject(objNumber, testDataNumberKey),
+    //   ...concatNumberKeyMap(mapNumber, testDataNumberKey),
+    //   ...concatStringKeyObject(objString, testDataStringKey, testStringIds),
+    //   ...concatStringKeyMap(mapString, testDataStringKey, testStringIds),
+    // },
+    'Concat by chunks to obj and map data (append rest 50%)': {
+      ...concatByChunksNumberKeyObject(objNumber, testDataNumberKey),
+      ...concatByChunksNumberKeyMap(mapNumber, testDataNumberKey),
+      ...concatByChunksStringKeyObject(objString, testDataStringKey, testStringIds),
+      ...concatByChunksStringKeyMap(mapString, testDataStringKey, testStringIds),
     },
     'Get first/middle/last obj and map data': {
       ...getNumberKeyObject(objNumber, TEST_COUNT),
